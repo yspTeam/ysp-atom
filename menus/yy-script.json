@@ -9,6 +9,10 @@
             {
               "label": "Run",
               "command": "yy-script:run"
+            },
+            {
+              "label": "New Project",
+              "command": "yy-script:new project"
             }
           ]
         }
