@@ -7,12 +7,16 @@
   "keywords": [
   ],
   "activationCommands": {},
-  "activationEvents":["yy-script:toggle","yy-script:run","yy-script:build","yy-script:save"],
+  "activationEvents":["yy-script:toggle","yy-script:run","yy-script:build","yy-script:save","yy-script:new project"],
   "repository": "https://github.com/atom/yy-script",
   "license": "MIT",
   "engines": {
     "atom": ">=1.0.0 <2.0.0"
   },
   "dependencies": {
+    "atom-space-pen-views": "^2.2.0",
+    "fs-plus": "^2.9.3",
+    "mkdirp": "^0.5.1",
+    "touch": "^1.0.0"
   }
 }
