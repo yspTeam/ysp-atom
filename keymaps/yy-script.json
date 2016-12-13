@@ -1,5 +1,7 @@
 {
   "atom-workspace": {
-    "ctrl-alt-r": "yy-script:run"
+    "ctrl-alt-r": "yy-script:run",
+    "ctrl-alt-b": "yy-script:build",
+    "ctrl-alt-y": "yy-script:new project"
   }
 }

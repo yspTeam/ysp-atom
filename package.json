@@ -1,20 +1,22 @@
 {
   "name": "yy-script",
+  "author": "YY LIVE <fangjiehua@yy.com>",
   "main": "./lib/yy-script",
   "version": "0.1.0",
   "description": " Generates and develop yy script plugin",
   "keywords": [
   ],
-  "activationCommands": {
-    "atom-workspace": [
-      "yy-script:run"
-    ]
-  },
+  "activationCommands": {},
+  "activationEvents":["yy-script:toggle","yy-script:run","yy-script:build","yy-script:save","yy-script:new project"],
   "repository": "https://github.com/atom/yy-script",
   "license": "MIT",
   "engines": {
     "atom": ">=1.0.0 <2.0.0"
   },
   "dependencies": {
+    "atom-space-pen-views": "^2.2.0",
+    "fs-plus": "^2.9.3",
+    "mkdirp": "^0.5.1",
+    "touch": "^1.0.0"
   }
 }
