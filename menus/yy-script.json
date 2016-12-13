@@ -17,6 +17,10 @@
             {
               "label": "New Project",
               "command": "yy-script:new project"
+            },
+            {
+              "label": "Reload Config",
+              "command": "yy-script:reload config"
             }
           ]
         }
