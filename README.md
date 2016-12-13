@@ -1,5 +1,6 @@
-# yy-script package
+# YY-Script插件
+这是一款用于开发YSP脚本的Atom插件，提供近似IDE的功能。
 
-A short description of your package.
+YSP脚本是用于YYScriptPluginSDK(YSPSDK)运行时的脚本。
 
-![A screenshot of your package](https://f.cloud.github.com/assets/69169/2290250/c35d867a-a017-11e3-86be-cd7c5bf3ff9b.gif)
+关于YSPSDK的文档，请见：http://dev.yypm.com/yylive/?post=posts/yyscriptpluginsdk/help.md
