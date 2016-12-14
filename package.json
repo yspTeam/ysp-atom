@@ -7,7 +7,10 @@
   "keywords": [
   ],
   "activationCommands": {},
-  "activationEvents":["yy-script:toggle","yy-script:run","yy-script:build","yy-script:save","yy-script:new project"],
+  "activationEvents":["yy-script:toggle",
+    "yy-script:run","yy-script:build",
+    "yy-script:save","yy-script:new project",
+  "yy-script:reload config"],
   "repository": "https://github.com/atom/yy-script",
   "license": "MIT",
   "engines": {
