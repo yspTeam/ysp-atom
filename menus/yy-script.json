@@ -7,20 +7,29 @@
           "label": "yy-script",
           "submenu": [
             {
+              "label": "File",
+              "submenu": [
+                {
+                  "label": "New Project",
+                  "command": "yy-script:new project"
+                },
+                {
+                  "label": "New File",
+                  "command": "yy-script:new file"
+                },
+                {
+                  "label": "Reload Config",
+                  "command": "yy-script:reload config"
+                }
+              ]
+            },
+            {
               "label": "Run",
               "command": "yy-script:run"
             },
             {
               "label": "Build",
               "command": "yy-script:build"
-            },
-            {
-              "label": "New Project",
-              "command": "yy-script:new project"
-            },
-            {
-              "label": "Reload Config",
-              "command": "yy-script:reload config"
             }
           ]
         }

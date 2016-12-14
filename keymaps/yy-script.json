@@ -3,6 +3,7 @@
     "ctrl-alt-r": "yy-script:run",
     "ctrl-alt-b": "yy-script:build",
     "ctrl-alt-y": "yy-script:new project",
-    "ctrl-alt-t": "yy-script:reload config"
+    "ctrl-alt-t": "yy-script:reload config",
+    "ctrl-alt-n": "yy-script:new file"
   }
 }
