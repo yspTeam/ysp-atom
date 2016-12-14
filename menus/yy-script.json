@@ -30,6 +30,14 @@
             {
               "label": "Build",
               "command": "yy-script:build"
+            },
+            {
+              "label": "New Xib",
+              "command": "yy-script:new xib"
+            },
+            {
+              "label": "Open Xib",
+              "command": "yy-script:open xib"
             }
           ]
         }

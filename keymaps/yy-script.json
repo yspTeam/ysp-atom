@@ -4,6 +4,8 @@
     "ctrl-alt-b": "yy-script:build",
     "ctrl-alt-y": "yy-script:new project",
     "ctrl-alt-t": "yy-script:reload config",
-    "ctrl-alt-n": "yy-script:new file"
+    "ctrl-alt-n": "yy-script:new file",
+    "ctrl-alt-x": "yy-script:new xib",
+    "ctrl-alt-m": "yy-script:open xib"
   }
 }
