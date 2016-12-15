@@ -9,8 +9,11 @@
   "activationCommands": {},
   "activationEvents":["yy-script:toggle",
     "yy-script:run","yy-script:build",
-    "yy-script:save","yy-script:new project",
-  "yy-script:reload config"],
+    "yy-script:save",
+    "yy-script:new project",
+    "yy-script:new file",
+  "yy-script:reload config",
+  "yy-script:new xib","yy-script:open xib"],
   "repository": "https://github.com/atom/yy-script",
   "license": "MIT",
   "engines": {
@@ -21,6 +24,7 @@
     "jszip": "^3.1.3",
     "fs-plus": "^2.9.3",
     "mkdirp": "^0.5.1",
-    "touch": "^1.0.0"
+    "touch": "^1.0.0",
+    "xmlreader":"^0.2.3"
   }
 }

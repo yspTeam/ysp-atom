@@ -7,6 +7,23 @@
           "label": "yy-script",
           "submenu": [
             {
+              "label": "File",
+              "submenu": [
+                {
+                  "label": "New Project",
+                  "command": "yy-script:new project"
+                },
+                {
+                  "label": "New File",
+                  "command": "yy-script:new file"
+                },
+                {
+                  "label": "Reload Config",
+                  "command": "yy-script:reload config"
+                }
+              ]
+            },
+            {
               "label": "Run",
               "command": "yy-script:run"
             },
@@ -15,12 +32,12 @@
               "command": "yy-script:build"
             },
             {
-              "label": "New Project",
-              "command": "yy-script:new project"
+              "label": "New Xib",
+              "command": "yy-script:new xib"
             },
             {
-              "label": "Reload Config",
-              "command": "yy-script:reload config"
+              "label": "Open Xib",
+              "command": "yy-script:open xib"
             }
           ]
         }
