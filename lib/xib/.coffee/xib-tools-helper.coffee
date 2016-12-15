@@ -1,4 +1,6 @@
 {File} = require('atom')
+{FileUtils} = require('./../file/file-utils.js')
+{Path} = require('path')
 
 module.exports =
 
@@ -10,10 +12,7 @@ module.exports =
     constructor: (args) ->
 
     openXib: (filePath) ->
-      if !filePath?
-        editor = atom.workspace.getActivePaneItem()
-        file = editor?.buffer.file
-        filePath = file?.path
+      console.log('FILEPATH', filePath)
 
       process = require('child_process')
       exec = process.exec;
@@ -26,13 +25,13 @@ module.exports =
             xmlreader = require('xmlreader')
             xmlreader.read(xmlString, (errors, response) ->
 
+              console.log('FILEPATH', filePath)
               self.propertyLabels = []
               self.className = filePath.split('/').pop().split('.')[0]
 
-              str = filePath.split('.')
-              str.pop()
-              str.push(".js")
-              str = str.join('')
+              str = filePath.replace(".xib",".js")
+              str = str.replace("ios/res/xib","ios/script/xib")
+              console.log('STR', str)
 
               self.getPropertyLabelWithView(response.document.objects.view)
               self.saveToJSClass(str,self.className,self.propertyLabels)
@@ -42,12 +41,8 @@ module.exports =
 
     newXib: () ->
       AddDialog = require './add-dialog'
-      editor = atom.workspace.getActivePaneItem()
-      file = editor?.buffer.file
-      filePath = file?.path
-      filePath = "" if !filePath
 
-      dialog = new AddDialog(filePath, true)
+      dialog = new AddDialog("ios/res/xib/", true)
       self = @
       dialog.on 'file-created', (event, createdPath) ->
 
@@ -60,7 +55,8 @@ module.exports =
         return
 
       if view.attributes().userLabel? and view.attributes().userLabel.startsWith("@")
-        @propertyLabels.push(view.attributes().userLabel.replace("@",""))
+        label = view.attributes().userLabel.replace("@","")
+        @propertyLabels.push("'#{label}'")
 
       subviews = view.subviews
 
@@ -74,10 +70,15 @@ module.exports =
         @getPropertyLabelWithView(subviews.webView) if subviews.webView?
 
     saveToJSClass:(filePath,className,propertyLabels) ->
+      console.log('FILEPATH', filePath)
       jsfs = new File(filePath,false);
+      console.log('JSFS', jsfs)
       jsfs.exists().then((isExists) -> (
+        console.log('ISEXISTS', isExists)
         if isExists
+          console.log('CONDITION PASSED')
           jsfs.read().then((text) ->
+            console.log('TEXT', text)
             reg = new RegExp('\(YYClass\\(.*\)\\[.*\\]','gi')
             str = text.replace(reg,"$1[#{propertyLabels}]")
             jsfs.writeSync(str)
@@ -88,7 +89,19 @@ module.exports =
           """
           jsfs.create().then((isCreated) ->
             jsfs.writeSync(jsContent)
-            jsfs.read().then((text) ->
-            )
           )
       ))
+
+    openTreeView: ->
+      packageObj = null
+      if atom.packages.isPackageLoaded('nuclide-file-tree') == true
+        nuclideFileTree = atom.packages.getLoadedPackage('nuclide-file-tree')
+        path = nuclideFileTree.contextMenuManager.activeElement?.getAttribute('data-path')
+        packageObj = selectedPath:path
+      if atom.packages.isPackageLoaded('tree-view') == true
+        treeView = atom.packages.getLoadedPackage('tree-view')
+        treeView = require(treeView.mainModulePath)
+        packageObj = treeView.serialize()
+      if typeof packageObj != 'undefined' && packageObj != null
+        if packageObj.selectedPath
+          @openXib packageObj.selectedPath

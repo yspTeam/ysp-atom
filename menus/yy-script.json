@@ -1,4 +1,10 @@
 {
+  "context-menu": {
+    ".tree-view .file" : [
+      { "label": "New Xib", "command": "yy-script:new xib"},
+      { "label": "Open Xib", "command": "yy-script:open xib"}
+    ]
+  },
   "menu": [
     {
       "label": "Packages",

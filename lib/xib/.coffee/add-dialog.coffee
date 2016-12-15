@@ -15,7 +15,8 @@ class AddDialog extends Dialog
 
     relativeDirectoryPath = directoryPath
     [@rootProjectPath, relativeDirectoryPath] = atom.project.relativizePath(directoryPath)
-    relativeDirectoryPath += path.sep if relativeDirectoryPath.length > 0
+    @rootProjectPath = @rootPath()
+    # relativeDirectoryPath += path.sep if relativeDirectoryPath.length > 0
 
     super
       prompt: "输入需要生成的Xib文件名"
@@ -23,9 +24,14 @@ class AddDialog extends Dialog
       select: false
       iconClass: if isCreatingFile then 'icon-file-add' else 'icon-file-directory-create'
 
+  rootPath:() ->
+    pathList = atom.project.getPaths();
+    if pathList.length > 0
+      rootPath = pathList[0];
+      return rootPath;
+
   onConfirm: (newPath) ->
     newPath = newPath.replace(/\s+$/, '') # Remove trailing whitespace
-    console.log('NEWPATH', newPath)
     endsWithDirectorySeparator = newPath[newPath.length - 1] is path.sep
     unless path.isAbsolute(newPath)
       unless @rootProjectPath?
