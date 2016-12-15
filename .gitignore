@@ -1,2 +1,4 @@
 node_modules
+*.coffee
+lib/product/*.zip
 
