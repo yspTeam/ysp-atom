@@ -32,8 +32,8 @@ module.exports =
               self.className = filePath.split('/').pop().split('.')[0]
 
               str = filePath.replace(/xib$/,"js")
-              rootPath = rootPath()
-              str = rootPath.concat("/ios/script/xib/",str.split('/').pop())
+              jsFilePath = rootPath()
+              str = jsFilePath.concat("/ios/script/xib/",str.split('/').pop())
 
               self.getPropertyLabelWithView(response.document.objects.view)
               self.saveToJSClass(str,self.className,self.propertyLabels)
