@@ -22,3 +22,9 @@ module.exports =
       fullExtension = extension + fullExtension
       filePath = path.basename(filePath, extension)
     fullExtension
+
+  rootPath:() ->
+    pathList = atom.project.getPaths();
+    if pathList.length > 0
+      rootPath = pathList[0];
+      return rootPath;

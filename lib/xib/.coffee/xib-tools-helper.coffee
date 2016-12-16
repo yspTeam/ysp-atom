@@ -1,6 +1,6 @@
 {File} = require('atom')
-{FileUtils} = require('./../file/file-utils.js')
 {Path} = require('path')
+{rootPath} = require('./helpers')
 
 module.exports =
 
@@ -12,7 +12,10 @@ module.exports =
     constructor: (args) ->
 
     openXib: (filePath) ->
-      console.log('FILEPATH', filePath)
+      filePath = @openTreeView()
+
+      if !filePath.endsWith("xib")
+        return
 
       process = require('child_process')
       exec = process.exec;
@@ -25,13 +28,12 @@ module.exports =
             xmlreader = require('xmlreader')
             xmlreader.read(xmlString, (errors, response) ->
 
-              console.log('FILEPATH', filePath)
               self.propertyLabels = []
               self.className = filePath.split('/').pop().split('.')[0]
 
-              str = filePath.replace(".xib",".js")
-              str = str.replace("ios/res/xib","ios/script/xib")
-              console.log('STR', str)
+              str = filePath.replace(/xib$/,"js")
+              rootPath = rootPath()
+              str = rootPath.concat("/ios/script/xib/",str.split('/').pop())
 
               self.getPropertyLabelWithView(response.document.objects.view)
               self.saveToJSClass(str,self.className,self.propertyLabels)
@@ -41,8 +43,8 @@ module.exports =
 
     newXib: () ->
       AddDialog = require './add-dialog'
-
-      dialog = new AddDialog("ios/res/xib/", true)
+      filePath = @openTreeView()
+      dialog = new AddDialog(filePath, true)
       self = @
       dialog.on 'file-created', (event, createdPath) ->
 
@@ -70,15 +72,10 @@ module.exports =
         @getPropertyLabelWithView(subviews.webView) if subviews.webView?
 
     saveToJSClass:(filePath,className,propertyLabels) ->
-      console.log('FILEPATH', filePath)
       jsfs = new File(filePath,false);
-      console.log('JSFS', jsfs)
       jsfs.exists().then((isExists) -> (
-        console.log('ISEXISTS', isExists)
         if isExists
-          console.log('CONDITION PASSED')
           jsfs.read().then((text) ->
-            console.log('TEXT', text)
             reg = new RegExp('\(YYClass\\(.*\)\\[.*\\]','gi')
             str = text.replace(reg,"$1[#{propertyLabels}]")
             jsfs.writeSync(str)
@@ -104,4 +101,4 @@ module.exports =
         packageObj = treeView.serialize()
       if typeof packageObj != 'undefined' && packageObj != null
         if packageObj.selectedPath
-          @openXib packageObj.selectedPath
+          return packageObj.selectedPath

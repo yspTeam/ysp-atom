@@ -15,7 +15,7 @@ class AddDialog extends Dialog
 
     relativeDirectoryPath = directoryPath
     [@rootProjectPath, relativeDirectoryPath] = atom.project.relativizePath(directoryPath)
-    @rootProjectPath = @rootPath()
+    # @rootProjectPath = @rootPath()
     # relativeDirectoryPath += path.sep if relativeDirectoryPath.length > 0
 
     super
@@ -24,15 +24,14 @@ class AddDialog extends Dialog
       select: false
       iconClass: if isCreatingFile then 'icon-file-add' else 'icon-file-directory-create'
 
-  rootPath:() ->
-    pathList = atom.project.getPaths();
-    if pathList.length > 0
-      rootPath = pathList[0];
-      return rootPath;
-
   onConfirm: (newPath) ->
     newPath = newPath.replace(/\s+$/, '') # Remove trailing whitespace
     endsWithDirectorySeparator = newPath[newPath.length - 1] is path.sep
+
+    if !newPath.endsWith("xib")
+      @showError("extname must is xib!")
+      return
+
     unless path.isAbsolute(newPath)
       unless @rootProjectPath?
         @showError("You must open a directory to create a file with a relative path")
