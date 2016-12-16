@@ -1,4 +1,6 @@
 node_modules
 *.coffee
 lib/product/*.zip
+YYMobile.app/*
 
+ysp-atom.zip
