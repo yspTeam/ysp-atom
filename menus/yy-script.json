@@ -1,8 +1,9 @@
 {
   "context-menu": {
-    ".tree-view .file" : [
+    ".tree-view .directory" : [
       { "label": "New Xib", "command": "yy-script:new xib"},
-      { "label": "Open Xib", "command": "yy-script:open xib"}
+      { "label": "Open Xib", "command": "yy-script:open xib"},
+      {"label": "New JS File", "command": "yy-script:new file"}
     ]
   },
   "menu": [
@@ -20,7 +21,7 @@
                   "command": "yy-script:new project"
                 },
                 {
-                  "label": "New File",
+                  "label": "New JS File",
                   "command": "yy-script:new file"
                 },
                 {
