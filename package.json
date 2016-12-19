@@ -10,7 +10,6 @@
   "activationEvents":[
     "yy-script:toggle",
     "yy-script:run",
-    "yy-script:build",
     "yy-script:save",
     "yy-script:new project",
     "yy-script:new file",
