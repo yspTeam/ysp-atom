@@ -1,0 +1,21 @@
+.ysp_toolbar ul{list-style:none;}
+.ysp_toolbar li{float:left;}
+
+.ysp_toolbar a:link{text-decoration:none;}
+.ysp_toolbar a:visited{text-decoration:none;}
+.ysp_toolbar a:active{text-decoration:none;}
+.ysp_toolbar a:hover{text-decoration:none;}
+
+.ysp_toolbar_btn {height:30px;width:50px;
+  margin-left:10px;
+  text-align:center;
+  border:#fff 1px solid;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius:5px;
+}
+.ysp_toolbar_btn:active{border:#aaa 1px solid;}
+
+.ysp_toolbar_btn img{width:18px;height:18px;margin-top:5px;}
+
+.ysp_toolbar_tips {float:right;}
