@@ -35,10 +35,6 @@
               "command": "yy-script:run"
             },
             {
-              "label": "Build",
-              "command": "yy-script:build"
-            },
-            {
               "label": "New Xib",
               "command": "yy-script:new xib"
             },
