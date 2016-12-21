@@ -1,21 +1,144 @@
-.ysp_toolbar ul{list-style:none;}
-.ysp_toolbar li{float:left;}
-
-.ysp_toolbar a:link{text-decoration:none;}
-.ysp_toolbar a:visited{text-decoration:none;}
-.ysp_toolbar a:active{text-decoration:none;}
-.ysp_toolbar a:hover{text-decoration:none;}
-
-.ysp_toolbar_btn {height:30px;width:50px;
-  margin-left:10px;
-  text-align:center;
-  border:#fff 1px solid;
-  -moz-border-radius: 5px;
-  -webkit-border-radius: 5px;
-  border-radius:5px;
+.ysp_toolbar ul {
+    list-style: none;
 }
-.ysp_toolbar_btn:active{border:#aaa 1px solid;}
 
-.ysp_toolbar_btn img{width:18px;height:18px;margin-top:5px;}
+.ysp_toolbar li {
+    float: left;
+}
 
-.ysp_toolbar_tips {float:right;}
+.ysp_toolbar a:link {
+    text-decoration: none;
+}
+
+.ysp_toolbar a:visited {
+    text-decoration: none;
+}
+
+.ysp_toolbar a:active {
+    text-decoration: none;
+}
+
+.ysp_toolbar a:hover {
+    text-decoration: none;
+}
+
+
+/*
+圆角方背景
+*/
+
+.ysp_toolbar_btn {
+    height: 30px;
+    width: 50px;
+    margin-left: 10px;
+    text-align: center;
+    border: #aaa 1px solid;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+}
+
+.ysp_toolbar_btn:active {
+    border: #777777 1px solid;
+}
+
+.ysp_toolbar_btn img {
+    width: 18px;
+    height: 18px;
+    margin-top: 5px;
+}
+
+
+/*
+模拟器选择框
+*/
+
+.ysp_toolbar_simulator_btn {
+    height: 30px;
+    width: auto;
+    margin-left: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    text-align: center;
+    border: #aaa 1px solid;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+}
+
+.ysp_toolbar_simulator_btn label {
+    font-size: 12px;
+    margin-left: 2px;
+    margin-top: 5px;
+    vertical-align: middle;
+        color: #eee;
+}
+.ysp_toolbar_simulator_btn label:active {
+color: #777777;
+}
+
+/*.ysp_toolbar_simulator_btn label:link {*/
+/*    color: #fff;*/
+/*}*/
+/**/
+/*.ysp_toolbar_simulator_btn label:active {*/
+/*    color: #777777;*/
+/*}*/
+
+.ysp_toolbar_simulator_btn_img {
+    width: 16px;
+    height: 16px;
+}
+
+.ysp_toolbar_simulator_btn_img_right {
+    margin-left: 3px;
+    width: 16px;
+    height: 16px;
+    margin-top: 0px;
+}
+
+#simulator_selecter {
+    display: none;
+    position:fixed;width:200px;height:auto;top:40px;left:460px;
+        background-color: #21252b;
+        border: #aaa 1px solid;
+        z-index:99999;
+        -moz-border-radius: 5px;
+        -webkit-border-radius: 5px;
+        border-radius: 5px;
+        /*display: none;*/
+}
+#simulator_selecter ul {
+    margin-left: -40px;
+    list-style: none;
+}
+#simulator_selecter li a {
+    display: block;
+    font-size: 12px;
+    margin-top:5px;
+    margin-left:10px;
+    vertical-align: middle;
+    text-decoration: none;
+    color: #eee;
+}
+#simulator_selecter li {
+    position: relative;
+    float: left;
+    margin-right: 5px;
+    height:26px;
+    width: 198px;
+}
+#simulator_selecter li a:hover{
+    color: #fff;
+}
+#simulator_selecter li:hover{
+    background-color: #777777;
+}
+
+/*
+tips
+*/
+
+.ysp_toolbar_tips {
+    float: right;
+}
