@@ -8,15 +8,21 @@ module.exports =
 
   getSuggestions: ({editor, bufferPosition}) ->
     prefix = @getPrefix(editor, bufferPosition).trim()
+    suggestions = []
+
     if prefix.toLowerCase().includes('yyapi')
-      suggestions = []
-      for suggestion in @getYYApiPackage().concat(@getApiEnt())
+      for suggestion in @getYYApiPackage().concat(@getApiEnt()).concat(@getApiRes()).concat(@getApiUtils())
         suggestion.replacementPrefix = prefix
         suggestion.descriptionMoreURL = 'http://dev.yypm.com/yylive/? \
         post=posts/yyscriptpluginsdk/api.md'
         suggestions.push(suggestion)
-
-      return suggestions
+    if prefix.toLowerCase().includes('self.ysp')
+      for suggestion in @getYSPNotify()
+        suggestion.replacementPrefix = prefix
+        suggestion.descriptionMoreURL = 'http://dev.yypm.com/yylive/? \
+        post=posts/yyscriptpluginsdk/api.md'
+        suggestions.push(suggestion)
+    return suggestions
 
   getYYApiPackage: ->
     ent =
@@ -32,7 +38,7 @@ module.exports =
       description: 'Res 相关接口'
     log =
       text: 'YYAPI.log'
-      snippet: 'YYAPI.log'
+      snippet: 'YYAPI.log()'
       type: 'function'
       description: 'log 接口'
     utils =
@@ -76,13 +82,92 @@ module.exports =
     return [sendEntProtocol,registerEntProtocol,registerEntStruct, \
     addCoreClient,removeCoreClient,removeAllCoreClient,notifyCoreClient]
 
+  getApiRes: ->
+    image_plugin =
+      text: 'YYAPI.res.image_plugin();'
+      type: 'function'
+      description: '获取组件下图片资源'
+    imagePath_plugin =
+      text: 'YYAPI.res.imagePath_plugin();'
+      type: 'function'
+      description: '获取组件下图片资源地址'
+    return [image_plugin, imagePath_plugin]
+
+  getYSPNotify: ->
+    yspAddNotify =
+      text: 'self.yspAddNotify_block("name",blockNotify(function(object,userinfo){ });'
+      type: 'function'
+      description: '添加notify监听'
+    yspPostNotify =
+      text: 'self.yspPostNotify_objcet_userinfo("name",null,null);'
+      type: 'function'
+      description: '发送notify'
+    yspRemoveNotify =
+      text: 'self.yspRemoveNotify("name");'
+      type: 'function'
+      description: '移除指定notifyname'
+    yspRemoveAllNotify =
+      text: 'self.yspRemoveAllNotify();'
+      type: 'function'
+      description: '移除所有notify'
+    return [yspAddNotify, yspPostNotify, yspRemoveNotify, yspRemoveAllNotify]
+
+  getApiUtils: ->
+    suggestions = [
+      {text: 'YYAPI.utils.deleteFileWithFullPath();'
+      description: '删除文件'},
+      {text: 'YYAPI.utils.isFileExists();'
+      description: '判断文件是否存在'},
+      {text: 'YYAPI.utils.createDirForPath();'
+      description: '创建文件夹'},
+      {text: 'YYAPI.utils.readFile();'
+      description: '读文件'},
+      {text: 'YYAPI.utils.getAppSource();'
+      description: '获取appSource'},
+      {text: 'YYAPI.utils.getappVersion();'
+      description: '获取appVersion'},
+      {text: 'YYAPI.utils.isFromAppStore();'
+      description: '获取是否是App Store渠道'},
+      {text: 'YYAPI.utils.modelName();'
+      description: '获取modelName'},
+      {text: 'YYAPI.utils.systemVersion();'
+      description: '获取systemVersion'},
+      {text: 'YYAPI.utils.identifierForVendor();'
+      description: '获取当前设备的 IDFV，IDFV 在某些情况下会变，不建议将其作为设备标识'},
+      {text: 'YYAPI.utils.deviceID();'
+      description: '获取deviceID'},
+      {text: 'YYAPI.utils.networkStatus();'
+      description: '获取网络状态'},
+      {text: 'YYAPI.utils.reachableStatus();'
+      description: '获取网络状态，精确到2，3，4G'},
+      {text: 'YYAPI.utils.ipAddress();'
+      description: '获取ipAddress'},
+      {text: 'YYAPI.utils.ipAddress(true);'
+      description: '获取ipAddress 优先取IPv4的地址'},
+      {text: 'YYAPI.utils.macAddresss();'
+      description: '获取macAddresss'},
+      {text: 'YYAPI.utils.idfa();'
+      description: '获取idfa'},
+      {text: 'YYAPI.utils.carrier();'
+      description: '获取运营商'},
+      {text: 'YYAPI.utils.carrierIdentifier();'
+      description: '获取运营商类型'},
+      {text: 'YYAPI.utils.carrierName();'
+      description: '获取运营商名称'},
+    ]
+
+    for suggestion in suggestions
+      suggestion.type = 'function'
+
+    return suggestions
+
+
   getPrefix: (editor, bufferPosition) ->
-    # Whatever your prefix regex might be
-    # regex = /YY*$/
-    # Get the text for the line up to the triggered buffer position
+    regex = /\ \S*$/g
     line = editor.getTextInRange([[bufferPosition.row, 0], bufferPosition])
-    # Match the regex to the line, and return the match
-    # line.match(regex)?[0] or ''
+
+    if line.includes(' ')
+      line = line.match(regex)[0]
     return line
 
   onDidInsertSuggestion: ({editor, suggestion}) ->
