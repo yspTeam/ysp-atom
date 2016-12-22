@@ -1,6 +1,6 @@
 {
   "name": "yy-script",
-  "author": "YY LIVE <fangjiehua@yy.com>",
+  "author": "YY LIVE",
   "main": "./lib/yy-script",
   "version": "0.1.0",
   "description": " Generates and develop yy script plugin",
@@ -15,7 +15,6 @@
     "yy-script:new file",
     "yy-script:reload config",
     "yy-script:new xib",
-    "yy-script:open xib"
     "yy-script:open xib",
     "yy-script:quick import"
   ],
