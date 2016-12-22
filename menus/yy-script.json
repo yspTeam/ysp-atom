@@ -1,5 +1,11 @@
 {
   "context-menu": {
+    "atom-text-editor": [
+      {
+        "label": "quick import",
+        "command": "yy-script:quick import"
+      }
+    ],
     ".tree-view .directory" : [
       { "label": "New Xib", "command": "yy-script:new xib"},
       { "label": "Open Xib", "command": "yy-script:open xib"},
@@ -16,6 +22,10 @@
           {
             "label": "toggle",
             "command": "yy-script:toggle"
+          },
+          {
+            "label": "Quick Import",
+            "command": "yy-script:quick import"
           },
             {
               "label": "File",

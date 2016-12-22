@@ -16,6 +16,8 @@
     "yy-script:reload config",
     "yy-script:new xib",
     "yy-script:open xib"
+    "yy-script:open xib",
+    "yy-script:quick import"
   ],
   "repository": "https://github.com/atom/yy-script",
   "license": "MIT",
