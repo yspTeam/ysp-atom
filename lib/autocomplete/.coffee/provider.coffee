@@ -11,7 +11,7 @@ module.exports =
     suggestions = []
 
     if prefix.toLowerCase().includes('yyapi')
-      for suggestion in @getYYApiPackage().concat(@getApiEnt()).concat(@getApiRes()).concat(@getApiUtils())
+      for suggestion in @getYYApiPackage().concat(@getApiEnt())\.concat(@getApiRes()).concat(@getApiUtils())
         suggestion.replacementPrefix = prefix
         suggestion.descriptionMoreURL = 'http://dev.yypm.com/yylive/? \
         post=posts/yyscriptpluginsdk/api.md'
@@ -83,15 +83,18 @@ module.exports =
     addCoreClient,removeCoreClient,removeAllCoreClient,notifyCoreClient]
 
   getApiRes: ->
-    image_plugin =
-      text: 'YYAPI.res.image();'
+    suggestions = [
+      {text: 'YYAPI.res.image();'
       type: 'function'
-      description: '获取组件下图片资源'
-    imagePath_plugin =
-      text: 'YYAPI.res.path();'
+      description: '获取组件下图片资源'},
+      {text: 'YYAPI.res.path();'
       type: 'function'
-      description: '获取组件下图片资源地址'
-    return [image_plugin, imagePath_plugin]
+      description: '获取组件下图片资源地址'},
+      {text: 'YYAPI.res.createView();'
+      type: 'function'
+      description: '根据xib资源id生成View'}
+    ]
+    return suggestions
 
   getYSPNotify: ->
     yspAddNotify =
