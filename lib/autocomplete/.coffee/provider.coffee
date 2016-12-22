@@ -84,11 +84,11 @@ module.exports =
 
   getApiRes: ->
     image_plugin =
-      text: 'YYAPI.res.image_plugin();'
+      text: 'YYAPI.res.image();'
       type: 'function'
       description: '获取组件下图片资源'
     imagePath_plugin =
-      text: 'YYAPI.res.imagePath_plugin();'
+      text: 'YYAPI.res.path();'
       type: 'function'
       description: '获取组件下图片资源地址'
     return [image_plugin, imagePath_plugin]
