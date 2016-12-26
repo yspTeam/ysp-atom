@@ -11,7 +11,7 @@ module.exports =
     suggestions = []
 
     if prefix.toLowerCase().includes('yyapi')
-      for suggestion in @getYYApiPackage().concat(@getApiEnt())\.concat(@getApiRes()).concat(@getApiUtils())
+      for suggestion in @getYYApiPackage().concat(@getApiEnt()).concat(@getApiRes()).concat(@getApiUtils())
         suggestion.replacementPrefix = prefix
         suggestion.descriptionMoreURL = 'http://dev.yypm.com/yylive/? \
         post=posts/yyscriptpluginsdk/api.md'
