@@ -2,3 +2,4 @@ node_modules
 lib/product/*.zip
 lib/product/YYMobile.app/*
 ysp-atom.zip
+*/*.log
