@@ -28,14 +28,14 @@
 */
 
 .ysp_toolbar_btn {
-    height: 30px;
-    width: 50px;
+    height: 26px;
+    width: 40px;
     margin-left: 10px;
     text-align: center;
     border: #aaa 1px solid;
-    -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
-    border-radius: 5px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
 }
 
 .ysp_toolbar_btn:active {
@@ -45,7 +45,11 @@
 .ysp_toolbar_btn img {
     width: 18px;
     height: 18px;
-    margin-top: 5px;
+    margin-top: 4px;
+}
+.ysp_toolbar_btn span:before {
+        margin-right: 0px;
+    margin-top: 4px;
 }
 
 
@@ -54,22 +58,22 @@
 */
 
 .ysp_toolbar_simulator_btn {
-    height: 30px;
+    height: 26px;
     width: auto;
     margin-left: 10px;
     padding-left: 10px;
     padding-right: 10px;
     text-align: center;
     border: #aaa 1px solid;
-    -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
-    border-radius: 5px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
 }
 
 .ysp_toolbar_simulator_btn label {
     font-size: 12px;
     margin-left: 2px;
-    margin-top: 5px;
+    margin-top: 3px;
     vertical-align: middle;
         color: #eee;
 }
@@ -99,13 +103,13 @@ color: #777777;
 
 #simulator_selecter {
     display: none;
-    position:fixed;width:200px;height:auto;top:40px;left:460px;
+    position:fixed;width:200px;height:auto;top:36px;left:400px;
         background-color: #21252b;
         border: #aaa 1px solid;
         z-index:99999;
-        -moz-border-radius: 5px;
-        -webkit-border-radius: 5px;
-        border-radius: 5px;
+        -moz-border-radius: 4px;
+        -webkit-border-radius: 4px;
+        border-radius: 4px;
         /*display: none;*/
 }
 #simulator_selecter ul {
@@ -115,7 +119,7 @@ color: #777777;
 #simulator_selecter li a {
     display: block;
     font-size: 12px;
-    margin-top:5px;
+    margin-top:3px;
     margin-left:10px;
     vertical-align: middle;
     text-decoration: none;
@@ -124,7 +128,7 @@ color: #777777;
 #simulator_selecter li {
     position: relative;
     float: left;
-    margin-right: 5px;
+    margin-right: 3px;
     height:26px;
     width: 198px;
 }
@@ -139,6 +143,9 @@ color: #777777;
 tips
 */
 
-.ysp_toolbar_tips {
+.ysp_toolbar_right {
+        width: auto;
+        height: 100%;
     float: right;
+    background-color: #F00;
 }
