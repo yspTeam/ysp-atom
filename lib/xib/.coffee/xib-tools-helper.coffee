@@ -6,6 +6,7 @@ module.exports =
 
   class XibToolsHelper
     propertyLabels : [],
+    orginalPropertyLabels :[],
     classFlie: null,
     xibFile:null
 
@@ -18,27 +19,38 @@ module.exports =
         return
 
       process = require('child_process')
-      exec = process.exec;
-      exec ('open "' + filePath  + '"');
-      fs = new File(filePath,false);
+      exec = process.exec
+      exec ('open "' + filePath  + '"')
+      fs = new File(filePath,false)
 
       self = @
+
+      fs.read().then((xmlString) ->
+        xmlreader = require('xmlreader')
+        xmlreader.read(xmlString, (errors, response) ->
+          self.propertyLabels = []
+          self.getPropertyLabelWithView(response.document.objects.view)
+          self.orginalPropertyLabels = self.propertyLabels
+        )
+      )
+
       fs.onDidChange(() ->
         fs.read().then((xmlString) ->
-            xmlreader = require('xmlreader')
-            xmlreader.read(xmlString, (errors, response) ->
+          xmlreader = require('xmlreader')
+          xmlreader.read(xmlString, (errors, response) ->
+            self.propertyLabels = []
+            self.className = filePath.split('/').pop().split('.')[0]
 
-              self.propertyLabels = []
-              self.className = filePath.split('/').pop().split('.')[0]
+            str = filePath.replace(/xib$/,"js")
+            jsFilePath = rootPath()
+            str = jsFilePath.concat("/ios/script/xib/",str.split('/').pop())
 
-              str = filePath.replace(/xib$/,"js")
-              jsFilePath = rootPath()
-              str = jsFilePath.concat("/ios/script/xib/",str.split('/').pop())
+            self.getPropertyLabelWithView(response.document.objects.view)
+            self.saveToJSClass(str,self.className,self.propertyLabels,self.orginalPropertyLabels)
 
-              self.getPropertyLabelWithView(response.document.objects.view)
-              self.saveToJSClass(str,self.className,self.propertyLabels)
-            )
+            self.orginalPropertyLabels = self.propertyLabels
           )
+        )
       )
 
     newXib: () ->
@@ -47,7 +59,6 @@ module.exports =
       dialog = new AddDialog(filePath, true)
       self = @
       dialog.on 'file-created', (event, createdPath) ->
-
         false
       dialog.attach()
 
@@ -71,18 +82,30 @@ module.exports =
         @getPropertyLabelWithView(subviews.textField) if subviews.textField?
         @getPropertyLabelWithView(subviews.webView) if subviews.webView?
 
-    saveToJSClass:(filePath,className,propertyLabels) ->
-      jsfs = new File(filePath,false);
+    saveToJSClass:(filePath,className,propertyLabels,orginalPropertyLabels) ->
+      jsfs = new File(filePath,false)
       jsfs.exists().then((isExists) -> (
         if isExists
           jsfs.read().then((text) ->
-            reg = new RegExp('\(YYClass\\(.*\)\\[.*\\]','gi')
-            str = text.replace(reg,"$1[#{propertyLabels}]")
-            jsfs.writeSync(str)
+            for label in orginalPropertyLabels
+              text = text.replace(label,"")
+
+            reg = new RegExp('\(YYClass\\(.*\)\\[\\s*,*\(.*?\),*\\s*\\]','gi')
+            text = text.replace(reg,"$1[$2]")
+            text = text.replace(/,{2,}/,"")
+
+            if propertyLabels.length > 0
+              reg = new RegExp('\(YYClass\\(.*\)\\[\(.*\)\\]','gi')
+              text = text.replace(reg,"$1[$2,#{propertyLabels}]")
+
+            jsfs.writeSync(text)
           )
         else
           jsContent = """
-            YYClass('#{className}:YYXibUIView', [#{propertyLabels}],{},{})
+            YYClass('#{className}:YYXibUIView', [#{propertyLabels}],{\n
+            },\n
+            {\n
+            })
           """
           jsfs.create().then((isCreated) ->
             jsfs.writeSync(jsContent)
