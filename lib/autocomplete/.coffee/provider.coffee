@@ -22,6 +22,11 @@ module.exports =
         suggestion.descriptionMoreURL = 'http://dev.yypm.com/yylive/? \
         post=posts/yyscriptpluginsdk/api.md'
         suggestions.push(suggestion)
+
+    if prefix.toLowerCase().includes('disp')
+      for suggestion in @getOcDispatch()
+        suggestion.replacementPrefix = prefix
+        suggestions.push(suggestion)
     return suggestions
 
   getYYApiPackage: ->
@@ -157,6 +162,35 @@ module.exports =
       description: '获取运营商类型'},
       {text: 'YYAPI.utils.carrierName();'
       description: '获取运营商名称'},
+    ]
+
+    for suggestion in suggestions
+      suggestion.type = 'function'
+
+    return suggestions
+
+  getOcDispatch: ->
+    suggestions = [
+      {text: 'dispatch_after(second,function() {\n
+        // do something\n
+        })',
+      snippet: 'dispatch_after(${1:#second},function() {\n
+        // do something\n
+        })',
+      description: 'GCD 支持'},
+      {text: 'dispatch_async_main(function() {\n
+        // do something\n
+        })',
+      description: 'GCD 支持'},
+      {text: 'dispatch_sync_main(function() {\n
+        // do something\n
+        })',
+      description: 'GCD 支持'},
+      {text: '''
+      dispatch_async_global_queue(function() {
+        // do something
+      })''',
+      description: 'GCD 支持'},
     ]
 
     for suggestion in suggestions
