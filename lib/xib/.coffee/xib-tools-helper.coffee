@@ -90,13 +90,15 @@ module.exports =
             for label in orginalPropertyLabels
               text = text.replace(label,"")
 
-            reg = new RegExp('\(YYClass\\(.*\)\\[\\s*,*\(.*?\),*\\s*\\]','gi')
-            text = text.replace(reg,"$1[$2]")
+            reg1 = new RegExp('\(YYClass\\(.*\)\\[\\s*,*\(.*?\),*\\s*\\]','gi')
+            text = text.replace(reg1,"$1[$2]")
             text = text.replace(/,{2,}/,"")
 
             if propertyLabels.length > 0
               reg = new RegExp('\(YYClass\\(.*\)\\[\(.*\)\\]','gi')
               text = text.replace(reg,"$1[$2,#{propertyLabels}]")
+
+            text = text.replace(reg1,"$1[$2]")
 
             jsfs.writeSync(text)
           )
