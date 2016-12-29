@@ -90,9 +90,10 @@ module.exports =
             for label in orginalPropertyLabels
               text = text.replace(label,"")
 
+
             reg1 = new RegExp('\(YYClass\\(.*\)\\[\\s*,*\(.*?\),*\\s*\\]','gi')
             text = text.replace(reg1,"$1[$2]")
-            text = text.replace(/,{2,}/,"")
+            text = text.replace(/,{2,}/,",")
 
             if propertyLabels.length > 0
               reg = new RegExp('\(YYClass\\(.*\)\\[\(.*?\)\\]','gi')
