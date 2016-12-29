@@ -95,7 +95,7 @@ module.exports =
             text = text.replace(/,{2,}/,"")
 
             if propertyLabels.length > 0
-              reg = new RegExp('\(YYClass\\(.*\)\\[\(.*\)\\]','gi')
+              reg = new RegExp('\(YYClass\\(.*\)\\[\(.*?\)\\]','gi')
               text = text.replace(reg,"$1[$2,#{propertyLabels}]")
 
             text = text.replace(reg1,"$1[$2]")
