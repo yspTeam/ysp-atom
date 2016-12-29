@@ -30,28 +30,37 @@ module.exports =
     return suggestions
 
   getYYApiPackage: ->
-    ent =
-      text: 'YYAPI.ent'
+    suggestions = [
+      {text: 'YYAPI.ent'
       snippet: 'YYAPI.ent'
       type: 'class'
-      description: 'Ent 相关接口'
-    res =
-      text: 'YYAPI.res'
+      description: 'Ent 相关接口'},
+      {text: 'YYAPI.res'
       snippet: 'YYAPI.res'
       displayText: 'YYAPI.res'
       type: 'class'
-      description: 'Res 相关接口'
-    log =
-      text: 'YYAPI.log'
-      snippet: 'YYAPI.log()'
+      description: 'Res 相关接口'},
+      {text: 'YYAPI.log()'
       type: 'function'
-      description: 'log 接口'
-    utils =
-      text: 'YYAPI.utils'
+      description: '普通日志接口'},
+      {text: 'YYAPI.error()'
+      type: 'function'
+      description: '错误日志接口'},
+      {text: 'YYAPI.warning()'
+      type: 'function'
+      description: '警告日志接口'},
+      {text: 'YYAPI.info()'
+      type: 'function'
+      description: 'info日志接口'},
+      {text: 'YYAPI.debug()'
+      type: 'function'
+      description: '调试日志接口'},
+      {text: 'YYAPI.utils'
       snippet: 'YYAPI.utils'
       type: 'class'
-      description: 'Utils 相关接口'
-    return [ent,res,log,utils]
+      description: 'Utils 相关接口'}
+    ]
+    return suggestions
 
   getApiEnt: ->
     sendEntProtocol =
