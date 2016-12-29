@@ -139,6 +139,47 @@ color: #777777;
     background-color: #777777;
 }
 
+#ysp_setting_parent_view {
+        clear: left;
+    display: block;
+    position:fixed;
+    width:100%;
+    height:100%;
+    top: 0px;
+    left: 0px;
+        background-color: rgba(0,0,0,0.5);
+        z-index:99999;
+}
+#ysp_setting_view {
+        padding: 20px
+}
+#ysp_setting_view input{
+        float: left;
+        width: 570px;
+}
+#ysp_setting_view button{
+        float: left;
+        width: 80px;
+        margin-left: 5px;
+        margin-top: 2px;
+}
+#ysp_setting_view_bg {
+margin-left:auto;
+margin-right:auto;
+margin-top: 20px;
+    width: 700px;
+    height: 400px;
+        background-color: #282c34;
+}
+#ysp_x_close_setting_view {
+/*position:fixed;*/
+width: 100px;
+height: 100px;
+margin-left: auto;
+margin-right: 20px;
+margin-top: 20px;
+}
+
 /*
 tips
 */
@@ -147,5 +188,8 @@ tips
         width: auto;
         height: 100%;
     float: right;
-    background-color: #F00;
+}
+
+.ysp_toolbar_right label{
+color:#fff;
 }
