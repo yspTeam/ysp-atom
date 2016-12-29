@@ -27,6 +27,21 @@ module.exports =
       for suggestion in @getOcDispatch()
         suggestion.replacementPrefix = prefix
         suggestions.push(suggestion)
+
+    if prefix.toLowerCase().includes('self.')
+      for suggestion in @getYSPApi()
+        suggestion.replacementPrefix = prefix
+        suggestions.push(suggestion)
+
+    return suggestions
+
+  getYSPApi: ->
+    suggestions = [
+      {text: 'self.observeModuleWithIdentifier()'
+      type: 'function'
+      description: '监听对应的VC'},
+    ]
+
     return suggestions
 
   getYYApiPackage: ->
