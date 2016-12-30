@@ -39,6 +39,16 @@ module.exports =
         suggestion.replacementPrefix = strArray[strArray.length - 1]
         suggestions.push(suggestion)
 
+    @classes.forEach((name) ->
+      suggestion = {}
+      suggestion.text = name
+      suggestion.leftLabel = "UIKit"
+      suggestion.type = 'class'
+      strArray = prefix.split(' ')
+      suggestion.replacementPrefix = strArray[strArray.length - 1]
+      suggestions.push(suggestion)
+    )
+
     return suggestions
 
   getYSPApi: ->
@@ -231,20 +241,47 @@ module.exports =
   loadUIKitCompletions: ->
     completions = []
     @all_completions = []
+
+    @classes = new Set()
+
+    suggestion = {}
+    suggestion.text = "alloc"
+    suggestion.leftLabel = "NSObject"
+    suggestion.type = 'method'
+    @all_completions.push(suggestion)
+
     fs.readFile path.resolve(__dirname, '.', 'UIKit.json'), (error, content) =>
       completions = JSON.parse(content) unless error?
       for object in completions
         suggestion = {}
-        suggestion.text = object.methond
-        suggestion.description = object.className
-        suggestion.type = 'function'
+        suggestion.text = object.method
+        suggestion.leftLabel = object.className
+        suggestion.type = 'method'
         @all_completions.push(suggestion)
-      return
+        @classes.add(object.className)
+
+    fs.readFile path.resolve(__dirname, '.', 'UIKitProperty.json'), (error, content) =>
+      completions = JSON.parse(content) unless error?
+      for object in completions
+        suggestion = {}
+        suggestion.text = object.method
+        suggestion.description = object.desc
+        suggestion.leftLabel = object.className
+        suggestion.type = 'method'
+        @all_completions.push(suggestion)
+
+        suggestionSet = {}
+        suggestionSet.text = 'set'+object.method.charAt(0).toUpperCase()+object.method.slice(1)
+        suggestionSet.description = object.desc
+        suggestionSet.leftLabel = object.className
+        suggestionSet.type = 'method'
+        @all_completions.push(suggestionSet)
+
+        @classes.add(object.className)
 
   getPrefix: (editor, bufferPosition) ->
     regex = /\ \S*$/g
     line = editor.getTextInRange([[bufferPosition.row, 0], bufferPosition])
-    console.log('LINE', line)
 
     if line.includes(' ')
       line = line.match(regex)[0]
