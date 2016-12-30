@@ -1,3 +1,5 @@
+fs = require 'fs'
+path = require 'path'
 
 module.exports =
 
@@ -16,20 +18,22 @@ module.exports =
         suggestion.descriptionMoreURL = 'http://dev.yypm.com/yylive/? \
         post=posts/yyscriptpluginsdk/api.md'
         suggestions.push(suggestion)
-    if prefix.toLowerCase().includes('self.ysp')
+    else if prefix.toLowerCase().includes('self.ysp')
       for suggestion in @getYSPNotify()
         suggestion.replacementPrefix = prefix
         suggestion.descriptionMoreURL = 'http://dev.yypm.com/yylive/? \
         post=posts/yyscriptpluginsdk/api.md'
         suggestions.push(suggestion)
-
-    if prefix.toLowerCase().includes('disp')
+    else if prefix.toLowerCase().includes('disp')
       for suggestion in @getOcDispatch()
         suggestion.replacementPrefix = prefix
         suggestions.push(suggestion)
-
-    if prefix.toLowerCase().includes('self.')
+    else if prefix.toLowerCase().includes('self.')
       for suggestion in @getYSPApi()
+        suggestion.replacementPrefix = prefix
+        suggestions.push(suggestion)
+    else
+      for suggestion in @all_completions
         suggestion.replacementPrefix = prefix
         suggestions.push(suggestion)
 
@@ -222,6 +226,18 @@ module.exports =
 
     return suggestions
 
+  loadUIKitCompletions: ->
+    completions = []
+    @all_completions = []
+    fs.readFile path.resolve(__dirname, '.', 'UIKit.json'), (error, content) =>
+      completions = JSON.parse(content) unless error?
+      for object in completions
+        suggestion = {}
+        suggestion.text = object.methond
+        suggestion.description = object.className
+        suggestion.type = 'function'
+        @all_completions.push(suggestion)
+      return
 
   getPrefix: (editor, bufferPosition) ->
     regex = /\ \S*$/g
