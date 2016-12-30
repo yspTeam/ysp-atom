@@ -6,7 +6,7 @@ module.exports =
   selector: '.source.js, .source.coffee'
   disableForSelector: '.source.js .comment'
   filterSuggestions: true
-  suggestionPriority: 2
+  suggestionPriority: 1
 
   getSuggestions: ({editor, bufferPosition}) ->
     prefix = @getPrefix(editor, bufferPosition).trim()
@@ -32,9 +32,11 @@ module.exports =
       for suggestion in @getYSPApi()
         suggestion.replacementPrefix = prefix
         suggestions.push(suggestion)
-    else
+
+    if prefix.toLowerCase().includes('.')
       for suggestion in @all_completions
-        suggestion.replacementPrefix = prefix
+        strArray = prefix.split('.')
+        suggestion.replacementPrefix = strArray[strArray.length - 1]
         suggestions.push(suggestion)
 
     return suggestions
@@ -242,6 +244,7 @@ module.exports =
   getPrefix: (editor, bufferPosition) ->
     regex = /\ \S*$/g
     line = editor.getTextInRange([[bufferPosition.row, 0], bufferPosition])
+    console.log('LINE', line)
 
     if line.includes(' ')
       line = line.match(regex)[0]
