@@ -32,6 +32,10 @@ module.exports =
       for suggestion in @getYSPApi()
         suggestion.replacementPrefix = prefix
         suggestions.push(suggestion)
+    else if prefix.toLowerCase().includes('block')
+      for suggestion in @getBlock()
+        suggestion.replacementPrefix = prefix
+        suggestions.push(suggestion)
 
     if prefix.toLowerCase().includes('.')
       for suggestion in @all_completions
@@ -49,6 +53,19 @@ module.exports =
       suggestions.push(suggestion)
     )
 
+    return suggestions
+
+
+  getBlock:->
+    suggestions = [
+      {text: 'BlockD( function(data) {\n # body...\n})'
+      type: 'function'
+      description: '只有一个NSDictionary参数的Block'},
+      {text: 'block(function() {\n # body...\n})'
+      snippet: 'block(function(${1:args}) {\n # body...\n})'
+      type: 'function'
+      description: 'JS中传递Block作为参数的形式'},
+    ]
     return suggestions
 
   getYSPApi: ->
