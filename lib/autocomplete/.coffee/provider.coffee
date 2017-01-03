@@ -65,7 +65,11 @@ module.exports =
       snippet: 'block(function(${1:args}) {\n # body...\n})'
       type: 'function'
       description: 'JS中传递Block作为参数的形式'},
+      {text: 'blockNotify( function(object,userinfo) {\n # body...\n})'
+      type: 'function'
+      description: '用于yspNotify的Block定义'},
     ]
+    
     return suggestions
 
   getYSPApi: ->
