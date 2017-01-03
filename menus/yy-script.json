@@ -1,0 +1,64 @@
+{
+  "context-menu": {
+    "atom-text-editor": [
+      {
+        "label": "quick import",
+        "command": "yy-script:quick import"
+      }
+    ],
+    ".tree-view .directory" : [
+      { "label": "New Xib", "command": "yy-script:new xib"},
+      { "label": "Open Xib", "command": "yy-script:open xib"},
+      {"label": "New JS File", "command": "yy-script:new file"}
+    ]
+  },
+  "menu": [
+    {
+      "label": "Packages",
+      "submenu": [
+        {
+          "label": "yy-script",
+          "submenu": [
+          {
+            "label": "toggle",
+            "command": "yy-script:toggle"
+          },
+          {
+            "label": "Quick Import",
+            "command": "yy-script:quick import"
+          },
+            {
+              "label": "File",
+              "submenu": [
+                {
+                  "label": "New Project",
+                  "command": "yy-script:new project"
+                },
+                {
+                  "label": "New JS File",
+                  "command": "yy-script:new file"
+                },
+                {
+                  "label": "Reload Config",
+                  "command": "yy-script:reload config"
+                }
+              ]
+            },
+            {
+              "label": "Run",
+              "command": "yy-script:run"
+            },
+            {
+              "label": "New Xib",
+              "command": "yy-script:new xib"
+            },
+            {
+              "label": "Open Xib",
+              "command": "yy-script:open xib"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
