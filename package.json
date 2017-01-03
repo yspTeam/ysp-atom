@@ -13,6 +13,7 @@
     "yy-script:save",
     "yy-script:new project",
     "yy-script:new file",
+    "yy-script:new protocol",
     "yy-script:reload config",
     "yy-script:new xib",
     "yy-script:open xib",

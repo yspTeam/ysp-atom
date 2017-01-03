@@ -9,7 +9,8 @@
     ".tree-view .directory" : [
       { "label": "New Xib", "command": "yy-script:new xib"},
       { "label": "Open Xib", "command": "yy-script:open xib"},
-      {"label": "New JS File", "command": "yy-script:new file"}
+      {"label": "New JS File", "command": "yy-script:new file"},
+      {"label": "New Protocol File", "command": "yy-script:new protocol"}
     ]
   },
   "menu": [
@@ -37,6 +38,10 @@
                 {
                   "label": "New JS File",
                   "command": "yy-script:new file"
+                },
+                {
+                  "label": "New Protocol File",
+                  "command": "yy-script:new protocol"
                 },
                 {
                   "label": "Reload Config",
