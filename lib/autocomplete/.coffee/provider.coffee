@@ -88,6 +88,25 @@ module.exports =
           suggestionSet.type = 'method'
           suggestions.push(suggestionSet)
 
+    for key,value of @LocalProtocolCompletes
+      suggestion = {}
+      suggestion.text = value.protocolName
+      suggestion.leftLabel = "YYProtocol"
+      suggestion.type = 'class'
+      strArray = prefix.split(' ')
+      suggestion.replacementPrefix = strArray[strArray.length - 1]
+      suggestions.push(suggestion)
+
+      if prefix.toLowerCase().includes('.')
+        for func in value.functions
+          funcSuggestion = {}
+          funcSuggestion.text = func.methodName + '(' + func.params + ')'
+          funcSuggestion.leftLabel = value.protocolName
+          funcSuggestion.type = 'method'
+          strArray = prefix.split('.')
+          funcSuggestion.replacementPrefix = strArray[strArray.length - 1]
+          suggestions.push(funcSuggestion)
+
     return suggestions
 
   getBlock:->
@@ -351,6 +370,7 @@ module.exports =
       }
 
     @LocalYYClassCompletes = {}
+    @LocalProtocolCompletes = {}
 
     watcher
     .on('add', (path) ->
@@ -367,8 +387,38 @@ module.exports =
     for statement in token.body
       if statement.type is "ExpressionStatement"
         if statement.expression.type is "CallExpression"
-          if statement.expression.callee.name is "YYClass"
+          if statement.expression.callee.name is "YYClass" or statement.expression.callee.name is "defineClass"
             @parseYYClass(statement.expression)
+          if statement.expression.callee.name is "defineProtocol"
+            @parseProtocol(statement.expression)
+
+  parseProtocol: (expression) ->
+    protocolName = ''
+    functions = []
+
+    for arg in expression.arguments
+      if arg.type is "Literal"
+        if arg.value.includes(":")
+          strArray = arg.value.split(':')
+          protocolName = strArray[0]
+        else
+          protocolName = arg.value
+
+      if arg.type is "ObjectExpression"
+        for prop in arg.properties
+          if prop.value.type is "FunctionExpression"
+            func = {}
+            params = []
+            func.methodName = prop.key.name
+            for param in prop.value.params
+              params.push param.name
+            func.params = params
+            functions.push func
+
+    @LocalProtocolCompletes[protocolName] = {
+      "protocolName" : protocolName
+      "functions" : functions
+    }
 
   parseYYClass: (expression) ->
     className = ''
