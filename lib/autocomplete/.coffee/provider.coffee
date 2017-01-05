@@ -1,5 +1,9 @@
 fs = require 'fs'
 path = require 'path'
+esprima = require 'esprima'
+chokidar = require 'chokidar'
+FileUtils = require '../file/file-utils'
+path = require 'path'
 
 module.exports =
 
@@ -53,8 +57,38 @@ module.exports =
       suggestions.push(suggestion)
     )
 
-    return suggestions
+    for key,value of @LocalYYClassCompletes
+      suggestion = {}
+      suggestion.text = value.className
+      suggestion.leftLabel = "YYClass"
+      suggestion.type = 'class'
+      strArray = prefix.split(' ')
+      suggestion.replacementPrefix = strArray[strArray.length - 1]
+      suggestions.push(suggestion)
 
+      if prefix.toLowerCase().includes('.')
+        for func in value.functions
+          funcSuggestion = {}
+          funcSuggestion.text = func.methodName + '(' + func.params + ')'
+          funcSuggestion.leftLabel = value.className
+          funcSuggestion.type = 'method'
+          strArray = prefix.split('.')
+          funcSuggestion.replacementPrefix = strArray[strArray.length - 1]
+          suggestions.push(funcSuggestion)
+        for prop in value.propertys
+          suggestion = {}
+          suggestion.text = prop
+          suggestion.leftLabel = value.className
+          suggestion.type = 'method'
+          suggestions.push(suggestion)
+
+          suggestionSet = {}
+          suggestionSet.text = 'set' + prop.charAt(0).toUpperCase() + prop.slice(1)
+          suggestionSet.leftLabel = value.className
+          suggestionSet.type = 'method'
+          suggestions.push(suggestionSet)
+
+    return suggestions
 
   getBlock:->
     suggestions = [
@@ -69,7 +103,7 @@ module.exports =
       type: 'function'
       description: '用于yspNotify的Block定义'},
     ]
-    
+
     return suggestions
 
   getYSPApi: ->
@@ -299,6 +333,75 @@ module.exports =
         @all_completions.push(suggestionSet)
 
         @classes.add(object.className)
+
+  loadLocalComplete: () ->
+    self = @
+
+    projectPath = FileUtils.iosProjectPath()
+
+    if FileUtils.isPathValid(projectPath)
+      projectPath = path.join(projectPath, 'script')
+      projectPath = projectPath.concat("/**/*.js")
+    else
+      return
+
+    watcher = chokidar.watch projectPath, {
+      ignored: /(^|[\/\\])\../
+      persistent: true
+      }
+
+    @LocalYYClassCompletes = {}
+
+    watcher
+    .on('add', (path) ->
+      self.parseSyntax(path)
+    )
+    .on('change', (path) ->
+      self.parseSyntax(path)
+    )
+
+  parseSyntax: (filepath) ->
+    text = fs.readFileSync(filepath,'utf-8')
+    token = esprima.parse(text)
+
+    for statement in token.body
+      if statement.type is "ExpressionStatement"
+        if statement.expression.type is "CallExpression"
+          if statement.expression.callee.name is "YYClass"
+            @parseYYClass(statement.expression)
+
+  parseYYClass: (expression) ->
+    className = ''
+    propertys = []
+    functions = []
+
+    for arg in expression.arguments
+      if arg.type is "Literal"
+        if arg.value.includes(":")
+          strArray = arg.value.split(':')
+          className = strArray[0]
+        else
+          className = arg.value
+
+      if arg.type is "ArrayExpression"
+        for prop in arg.elements
+          propertys.push prop.value
+      if arg.type is "ObjectExpression"
+        for prop in arg.properties
+          if prop.value.type is "FunctionExpression"
+            func = {}
+            params = []
+            func.methodName = prop.key.name
+            for param in prop.value.params
+              params.push param.name
+            func.params = params
+            functions.push func
+
+    @LocalYYClassCompletes[className] = {
+      "className" : className
+      "propertys" : propertys
+      "functions" : functions
+    }
 
   getPrefix: (editor, bufferPosition) ->
     regex = /\ \S*$/g
