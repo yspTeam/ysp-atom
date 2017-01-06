@@ -2,13 +2,15 @@
   "name": "atom-ysp",
   "author": "YY LIVE",
   "main": "./lib/yy-script",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": " Generates and develop yy script plugin",
   "keywords": [
-    "yy","ysp","duowan"
+    "yy",
+    "ysp",
+    "duowan"
   ],
   "activationCommands": {},
-  "activationEvents":[
+  "activationEvents": [
     "yy-script:toggle",
     "yy-script:run",
     "yy-script:save",
@@ -43,7 +45,7 @@
     "fs-plus": "^2.9.3",
     "mkdirp": "^0.5.1",
     "touch": "^1.0.0",
-    "xmlreader":"^0.2.3",
+    "xmlreader": "^0.2.3",
     "babel-eslint": "^6.1.2",
     "eslint": "^3.3.1",
     "eslint-config-airbnb": "^10.0.1",
@@ -51,8 +53,8 @@
     "eslint-plugin-jsx-a11y": "^2.1.0",
     "eslint-plugin-prefer-object-spread": "^1.1.0",
     "atom-package-dependencies": "latest",
-    "chokidar":"^1.6.1",
-    "esprima":"^3.0.0"
+    "chokidar": "^1.6.1",
+    "esprima": "^3.0.0"
   },
   "package-dependencies": {
     "linter-eslint": ""
