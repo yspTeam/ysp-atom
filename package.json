@@ -1,10 +1,11 @@
 {
-  "name": "yy-script",
+  "name": "atom-ysp",
   "author": "YY LIVE",
   "main": "./lib/yy-script",
   "version": "0.1.0",
   "description": " Generates and develop yy script plugin",
   "keywords": [
+    "yy","ysp","duowan"
   ],
   "activationCommands": {},
   "activationEvents":[
@@ -17,9 +18,13 @@
     "yy-script:reload config",
     "yy-script:new xib",
     "yy-script:open xib",
-    "yy-script:quick import"
+    "yy-script:quick import",
+    "yy-script:help"
   ],
-  "repository": "https://github.com/atom/yy-script",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yspTeam/ysp-atom.git"
+  },
   "license": "MIT",
   "engines": {
     "atom": ">=1.0.0 <2.0.0"
