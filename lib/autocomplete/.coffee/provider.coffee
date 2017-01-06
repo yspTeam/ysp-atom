@@ -77,7 +77,7 @@ module.exports =
           suggestions.push(funcSuggestion)
         for prop in value.propertys
           suggestion = {}
-          suggestion.text = prop
+          suggestion.text = prop + '()'
           suggestion.leftLabel = value.className
           suggestion.type = 'method'
           suggestions.push(suggestion)
