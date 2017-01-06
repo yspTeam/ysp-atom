@@ -130,6 +130,9 @@ module.exports =
       {text: 'self.observeModuleWithIdentifier()'
       type: 'function'
       description: '监听对应的VC'},
+      {text: 'self.removeObserverWithIdentifier()'
+      type: 'function'
+      description: '移除对应的VC监听'}
     ]
 
     return suggestions
