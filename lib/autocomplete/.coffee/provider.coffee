@@ -1,5 +1,9 @@
 fs = require 'fs'
 path = require 'path'
+esprima = require 'esprima'
+chokidar = require 'chokidar'
+FileUtils = require '../file/file-utils'
+path = require 'path'
 
 module.exports =
 
@@ -32,6 +36,10 @@ module.exports =
       for suggestion in @getYSPApi()
         suggestion.replacementPrefix = prefix
         suggestions.push(suggestion)
+    else if prefix.toLowerCase().includes('block')
+      for suggestion in @getBlock()
+        suggestion.replacementPrefix = prefix
+        suggestions.push(suggestion)
 
     if prefix.toLowerCase().includes('.')
       for suggestion in @all_completions
@@ -42,12 +50,78 @@ module.exports =
     @classes.forEach((name) ->
       suggestion = {}
       suggestion.text = name
-      suggestion.leftLabel = "UIKit"
+      suggestion.leftLabel = "YYMobile"
       suggestion.type = 'class'
       strArray = prefix.split(' ')
       suggestion.replacementPrefix = strArray[strArray.length - 1]
       suggestions.push(suggestion)
     )
+
+    for key,value of @LocalYYClassCompletes
+      suggestion = {}
+      suggestion.text = value.className
+      suggestion.leftLabel = "YYClass"
+      suggestion.type = 'class'
+      strArray = prefix.split(' ')
+      suggestion.replacementPrefix = strArray[strArray.length - 1]
+      suggestions.push(suggestion)
+
+      if prefix.toLowerCase().includes('.')
+        for func in value.functions
+          funcSuggestion = {}
+          funcSuggestion.text = func.methodName + '(' + func.params + ')'
+          funcSuggestion.leftLabel = value.className
+          funcSuggestion.type = 'method'
+          strArray = prefix.split('.')
+          funcSuggestion.replacementPrefix = strArray[strArray.length - 1]
+          suggestions.push(funcSuggestion)
+        for prop in value.propertys
+          suggestion = {}
+          suggestion.text = prop + '()'
+          suggestion.leftLabel = value.className
+          suggestion.type = 'method'
+          suggestions.push(suggestion)
+
+          suggestionSet = {}
+          suggestionSet.text = 'set' + prop.charAt(0).toUpperCase() + prop.slice(1) + "(" + prop + ")"
+          suggestionSet.leftLabel = value.className
+          suggestionSet.type = 'method'
+          suggestions.push(suggestionSet)
+
+    for key,value of @LocalProtocolCompletes
+      suggestion = {}
+      suggestion.text = value.protocolName
+      suggestion.leftLabel = "YYProtocol"
+      suggestion.type = 'class'
+      strArray = prefix.split(' ')
+      suggestion.replacementPrefix = strArray[strArray.length - 1]
+      suggestions.push(suggestion)
+
+      if prefix.toLowerCase().includes('.')
+        for func in value.functions
+          funcSuggestion = {}
+          funcSuggestion.text = func.methodName + '(' + func.params + ')'
+          funcSuggestion.leftLabel = value.protocolName
+          funcSuggestion.type = 'method'
+          strArray = prefix.split('.')
+          funcSuggestion.replacementPrefix = strArray[strArray.length - 1]
+          suggestions.push(funcSuggestion)
+
+    return suggestions
+
+  getBlock:->
+    suggestions = [
+      {text: 'BlockD( function(data) {\n # body...\n})'
+      type: 'function'
+      description: '只有一个NSDictionary参数的Block'},
+      {text: 'block(function() {\n # body...\n})'
+      snippet: 'block(function(${1:args}) {\n # body...\n})'
+      type: 'function'
+      description: 'JS中传递Block作为参数的形式'},
+      {text: 'blockNotify( function(object,userinfo) {\n # body...\n})'
+      type: 'function'
+      description: '用于yspNotify的Block定义'},
+    ]
 
     return suggestions
 
@@ -56,6 +130,9 @@ module.exports =
       {text: 'self.observeModuleWithIdentifier()'
       type: 'function'
       description: '监听对应的VC'},
+      {text: 'self.removeObserverWithIdentifier()'
+      type: 'function'
+      description: '移除对应的VC监听'}
     ]
 
     return suggestions
@@ -238,27 +315,32 @@ module.exports =
 
     return suggestions
 
-  loadUIKitCompletions: ->
-    completions = []
+  init : ->
     @all_completions = []
-
     @classes = new Set()
 
-    suggestion = {}
-    suggestion.text = "alloc"
-    suggestion.leftLabel = "NSObject"
-    suggestion.type = 'method'
-    @all_completions.push(suggestion)
-
-    fs.readFile path.resolve(__dirname, '.', 'UIKit.json'), (error, content) =>
+  loadAppCompletions: ->
+    fs.readFile path.resolve(__dirname, '.', 'YYMobile.json'), (error, content) =>
       completions = JSON.parse(content) unless error?
       for object in completions
         suggestion = {}
         suggestion.text = object.method
-        suggestion.leftLabel = object.className
+        suggestion.leftLabel = object.class
         suggestion.type = 'method'
         @all_completions.push(suggestion)
-        @classes.add(object.className)
+        @classes.add(object.class)
+
+  loadUIKitCompletions: ->
+
+    # fs.readFile path.resolve(__dirname, '.', 'UIKit.json'), (error, content) =>
+    #   completions = JSON.parse(content) unless error?
+    #   for object in completions
+    #     suggestion = {}
+    #     suggestion.text = object.method
+    #     suggestion.leftLabel = object.className
+    #     suggestion.type = 'method'
+    #     @all_completions.push(suggestion)
+    #     @classes.add(object.className)
 
     fs.readFile path.resolve(__dirname, '.', 'UIKitProperty.json'), (error, content) =>
       completions = JSON.parse(content) unless error?
@@ -277,7 +359,105 @@ module.exports =
         suggestionSet.type = 'method'
         @all_completions.push(suggestionSet)
 
-        @classes.add(object.className)
+  loadLocalComplete: () ->
+    self = @
+
+    projectPath = FileUtils.iosProjectPath()
+
+    if FileUtils.isPathValid(projectPath)
+      projectPath = path.join(projectPath, 'script')
+      projectPath = projectPath.concat("/**/*.js")
+    else
+      return
+
+    watcher = chokidar.watch projectPath, {
+      ignored: /(^|[\/\\])\../
+      persistent: true
+      }
+
+    @LocalYYClassCompletes = {}
+    @LocalProtocolCompletes = {}
+
+    watcher
+    .on('add', (path) ->
+      self.parseSyntax(path)
+    )
+    .on('change', (path) ->
+      self.parseSyntax(path)
+    )
+
+  parseSyntax: (filepath) ->
+    text = fs.readFileSync(filepath,'utf-8')
+    token = esprima.parse(text)
+
+    for statement in token.body
+      if statement.type is "ExpressionStatement"
+        if statement.expression.type is "CallExpression"
+          if statement.expression.callee.name is "YYClass" or statement.expression.callee.name is "defineClass"
+            @parseYYClass(statement.expression)
+          if statement.expression.callee.name is "defineProtocol"
+            @parseProtocol(statement.expression)
+
+  parseProtocol: (expression) ->
+    protocolName = ''
+    functions = []
+
+    for arg in expression.arguments
+      if arg.type is "Literal"
+        if arg.value.includes(":")
+          strArray = arg.value.split(':')
+          protocolName = strArray[0]
+        else
+          protocolName = arg.value
+
+      if arg.type is "ObjectExpression"
+        for prop in arg.properties
+          if prop.value.type is "FunctionExpression"
+            func = {}
+            params = []
+            func.methodName = prop.key.name
+            for param in prop.value.params
+              params.push param.name
+            func.params = params
+            functions.push func
+
+    @LocalProtocolCompletes[protocolName] = {
+      "protocolName" : protocolName
+      "functions" : functions
+    }
+
+  parseYYClass: (expression) ->
+    className = ''
+    propertys = []
+    functions = []
+
+    for arg in expression.arguments
+      if arg.type is "Literal"
+        if arg.value.includes(":")
+          strArray = arg.value.split(':')
+          className = strArray[0]
+        else
+          className = arg.value
+
+      if arg.type is "ArrayExpression"
+        for prop in arg.elements
+          propertys.push prop.value
+      if arg.type is "ObjectExpression"
+        for prop in arg.properties
+          if prop.value.type is "FunctionExpression"
+            func = {}
+            params = []
+            func.methodName = prop.key.name
+            for param in prop.value.params
+              params.push param.name
+            func.params = params
+            functions.push func
+
+    @LocalYYClassCompletes[className] = {
+      "className" : className
+      "propertys" : propertys
+      "functions" : functions
+    }
 
   getPrefix: (editor, bufferPosition) ->
     regex = /\ \S*$/g
