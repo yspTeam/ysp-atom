@@ -83,7 +83,7 @@ module.exports =
           suggestions.push(suggestion)
 
           suggestionSet = {}
-          suggestionSet.text = 'set' + prop.charAt(0).toUpperCase() + prop.slice(1)
+          suggestionSet.text = 'set' + prop.charAt(0).toUpperCase() + prop.slice(1) + "(" + prop + ")"
           suggestionSet.leftLabel = value.className
           suggestionSet.type = 'method'
           suggestions.push(suggestionSet)
