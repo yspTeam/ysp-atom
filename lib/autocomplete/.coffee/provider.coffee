@@ -312,10 +312,11 @@ module.exports =
 
     return suggestions
 
-  loadAppCompletions: ->
+  init : ->
     @all_completions = []
     @classes = new Set()
 
+  loadAppCompletions: ->
     fs.readFile path.resolve(__dirname, '.', 'YYMobile.json'), (error, content) =>
       completions = JSON.parse(content) unless error?
       for object in completions
@@ -327,10 +328,7 @@ module.exports =
         @classes.add(object.class)
 
   loadUIKitCompletions: ->
-    completions = []
 
-    @all_completions = []
-    @classes = new Set()
     # fs.readFile path.resolve(__dirname, '.', 'UIKit.json'), (error, content) =>
     #   completions = JSON.parse(content) unless error?
     #   for object in completions
@@ -357,8 +355,6 @@ module.exports =
         suggestionSet.leftLabel = object.className
         suggestionSet.type = 'method'
         @all_completions.push(suggestionSet)
-
-        @classes.add(object.className)
 
   loadLocalComplete: () ->
     self = @
