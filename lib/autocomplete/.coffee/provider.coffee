@@ -50,7 +50,7 @@ module.exports =
     @classes.forEach((name) ->
       suggestion = {}
       suggestion.text = name
-      suggestion.leftLabel = "UIKit"
+      suggestion.leftLabel = "YYMobile"
       suggestion.type = 'class'
       strArray = prefix.split(' ')
       suggestion.replacementPrefix = strArray[strArray.length - 1]
@@ -312,27 +312,34 @@ module.exports =
 
     return suggestions
 
-  loadUIKitCompletions: ->
-    completions = []
+  loadAppCompletions: ->
     @all_completions = []
-
     @classes = new Set()
 
-    suggestion = {}
-    suggestion.text = "alloc"
-    suggestion.leftLabel = "NSObject"
-    suggestion.type = 'method'
-    @all_completions.push(suggestion)
-
-    fs.readFile path.resolve(__dirname, '.', 'UIKit.json'), (error, content) =>
+    fs.readFile path.resolve(__dirname, '.', 'YYMobile.json'), (error, content) =>
       completions = JSON.parse(content) unless error?
       for object in completions
         suggestion = {}
         suggestion.text = object.method
-        suggestion.leftLabel = object.className
+        suggestion.leftLabel = object.class
         suggestion.type = 'method'
         @all_completions.push(suggestion)
-        @classes.add(object.className)
+        @classes.add(object.class)
+
+  loadUIKitCompletions: ->
+    completions = []
+
+    @all_completions = []
+    @classes = new Set()
+    # fs.readFile path.resolve(__dirname, '.', 'UIKit.json'), (error, content) =>
+    #   completions = JSON.parse(content) unless error?
+    #   for object in completions
+    #     suggestion = {}
+    #     suggestion.text = object.method
+    #     suggestion.leftLabel = object.className
+    #     suggestion.type = 'method'
+    #     @all_completions.push(suggestion)
+    #     @classes.add(object.className)
 
     fs.readFile path.resolve(__dirname, '.', 'UIKitProperty.json'), (error, content) =>
       completions = JSON.parse(content) unless error?
