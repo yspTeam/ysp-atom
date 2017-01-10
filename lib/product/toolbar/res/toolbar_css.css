@@ -158,16 +158,6 @@ setting view
         padding: 20px;
         width:549px;
 }
-#ysp_setting_view input{
-        float: left;
-        width: 420px;
-}
-#ysp_setting_view button{
-        float: left;
-        width: 80px;
-        margin-left: 5px;
-        margin-top: 2px;
-}
 #ysp_setting_view_bg {
 margin-left:auto;
 margin-right:auto;
@@ -191,6 +181,34 @@ height: 40px;
 text-align:center;
 margin-top: 8px;
 float:left;
+}
+
+#ysp_debug_info_view_bg {
+        width: 500px;
+        height: 300px;
+}
+#ysp_debug_info_view_bg label{
+width: 150px;
+}
+#ysp_debug_info_input{
+display: inline-block;
+margin-top: 10px;
+}
+#ysp_debug_info_view_bg button{
+        float: left;
+        width: 80px;
+        margin-top: 50px;
+}
+
+#ysp_download_yy_view_bg input{
+        float: left;
+        width: 420px;
+}
+#ysp_download_yy_view_bg button{
+        float: left;
+        width: 80px;
+        margin-left: 5px;
+        margin-top: 2px;
 }
 /*
 tips
