@@ -139,6 +139,9 @@ color: #777777;
     background-color: #777777;
 }
 
+/*
+setting view
+*/
 #ysp_setting_parent_view {
         clear: left;
     display: block;
@@ -151,11 +154,13 @@ color: #777777;
         z-index:99999;
 }
 #ysp_setting_view {
-        padding: 20px
+        float: right;
+        padding: 20px;
+        width:549px;
 }
 #ysp_setting_view input{
         float: left;
-        width: 570px;
+        width: 420px;
 }
 #ysp_setting_view button{
         float: left;
@@ -171,15 +176,22 @@ margin-top: 20px;
     height: 400px;
         background-color: #282c34;
 }
-#ysp_x_close_setting_view {
-/*position:fixed;*/
-width: 100px;
-height: 100px;
-margin-left: auto;
-margin-right: 20px;
+#ysp_setting_left_view{
+        float: left;
+margin-right:auto;
 margin-top: 20px;
+    width: 150px;
+    height: auto;
 }
 
+#ysp_setting_left_view li {
+height: 40px;
+}
+#ysp_setting_left_view span {
+text-align:center;
+margin-top: 8px;
+float:left;
+}
 /*
 tips
 */
