@@ -2,6 +2,7 @@ node_modules
 lib/product/*.zip
 lib/product/YYMobile.app/*
 lib/product/yy/YYMobile.app/*
+lib/product/download/YYMobile.app/*
 ysp-atom.zip
 */*.log
 0.0.1.zip
