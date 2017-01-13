@@ -371,7 +371,7 @@ module.exports =
         if statement.expression.type is "CallExpression"
           if statement.expression.callee.name is "YYClass" or statement.expression.callee.name is "defineClass"
             @parseYYClass(statement.expression)
-          if statement.expression.callee.name is "defineProtocol"
+          if statement.expression.callee.name is "defineProtocol" or statement.expression.callee.name is "YYProtocol"
             @parseProtocol(statement.expression)
 
   parseProtocol: (expression) ->
