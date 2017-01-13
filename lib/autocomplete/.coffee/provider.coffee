@@ -324,40 +324,16 @@ module.exports =
       completions = JSON.parse(content) unless error?
       for object in completions
         suggestion = {}
-        suggestion.text = object.method
-        suggestion.leftLabel = object.class
+        method = object.method.replace(/\:$/,"")
+        method = method.replace(":","_")
+        method = method.concat("()")
+
+        suggestion.text = method
+        suggestion.leftLabel = object.returnType
         suggestion.type = 'method'
+        suggestion.description = object.paramsDesc
         @all_completions.push(suggestion)
         @classes.add(object.class)
-
-  loadUIKitCompletions: ->
-
-    # fs.readFile path.resolve(__dirname, '.', 'UIKit.json'), (error, content) =>
-    #   completions = JSON.parse(content) unless error?
-    #   for object in completions
-    #     suggestion = {}
-    #     suggestion.text = object.method
-    #     suggestion.leftLabel = object.className
-    #     suggestion.type = 'method'
-    #     @all_completions.push(suggestion)
-    #     @classes.add(object.className)
-
-    fs.readFile path.resolve(__dirname, '.', 'UIKitProperty.json'), (error, content) =>
-      completions = JSON.parse(content) unless error?
-      for object in completions
-        suggestion = {}
-        suggestion.text = object.method
-        suggestion.description = object.desc
-        suggestion.leftLabel = object.className
-        suggestion.type = 'method'
-        @all_completions.push(suggestion)
-
-        suggestionSet = {}
-        suggestionSet.text = 'set'+object.method.charAt(0).toUpperCase()+object.method.slice(1)
-        suggestionSet.description = object.desc
-        suggestionSet.leftLabel = object.className
-        suggestionSet.type = 'method'
-        @all_completions.push(suggestionSet)
 
   loadLocalComplete: () ->
     self = @
