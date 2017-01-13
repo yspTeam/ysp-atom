@@ -37,7 +37,7 @@
     },
     "linter": {
       "versions": {
-        "1.0.0": "provideLinter"
+        "1.0.1": "provideLinter"
       }
     }
   },
