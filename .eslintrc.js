@@ -20,6 +20,7 @@ module.exports = {
         "semi": "off",
         "no-undef": "off",
         "no-unused-vars": "off",
-        "no-console":"off"
+        "no-console":"off",
+        "no-mixed-spaces-and-tabs": 0
     }
 };
