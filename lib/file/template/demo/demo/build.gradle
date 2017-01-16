@@ -1,0 +1,157 @@
+apply plugin: 'com.android.application'
+apply plugin: "de.undercouch.download"
+
+android {
+    compileSdkVersion "${compile_sdk_version}" as Integer
+    buildToolsVersion "${build_tools_version}"
+
+    defaultConfig {
+        applicationId "${package_name}$"
+        minSdkVersion "${min_sdk_version}" as Integer
+        targetSdkVersion "${target_sdk_version}" as Integer
+        versionCode 1
+        versionName "1.0"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+
+    dexOptions {
+        jumboMode true
+    }
+}
+
+// Example for customize package id
+ext {
+    packageId = 0x7e
+}
+
+small {
+    pluginId = "3"
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    testCompile 'junit:junit:4.12'
+    compile "com.android.support:support-v4:${support_version}"
+    compile "com.yy.android.small:pluginbase:${small_version}"
+    compile "com.yy.android.small:small:${small_version}"
+    compile "com.yy.mobile:framework:${yymobileapi_version}"
+    compile "com.yy.mobile:baseapi:${yymobileapi_version}"
+    compile "com.yy.mobile:pull_to_refresh:${yymobileapi_version}"
+    compile "com.yy.mobile:share_sdk:${yymobileapi_version}"
+    //    compile project(':framework')
+    //    compile project(':baseapi')
+    //    compile project(':3rd:share_sdk')
+    //    compile project(':3rd:pull_to_refresh')
+    compile "com.google.code.gson:gson:${gson_version}"
+    compile "com.duowan.mobile.uauth:yyauth:${auth_version}"
+    compile("com.yy.android.yyprotosdk:yypushsvc:${pushsdk_version}") {
+        exclude(group: 'com.duowan.android', module: 'yyuauth')
+        exclude(group: 'com.google.android', module: 'android')
+        exclude(group: 'com.duowan.mobile.uauth', module: 'yyauth')
+    }
+    compile("com.yy.android.yyprotosdk:imSDK:${imsdk_version}") {
+        exclude(group: 'com.yy.android.yyprotosdk', module: 'yyprotosdk')
+    }
+    compile("com.yy.android.yyprotosdk:yyprotosdk:${yyprotosdk_version}") {
+//        exclude (group: 'com.duowan.mobile.uauth', module: 'yyauth')
+        exclude(group: 'com.duowan.android.yyantilib', module: 'androiditna')
+        changing = true
+    }
+    compile("com.yy.android.mediarecord:mediarecord-sdk:${mediarecordsdk_version}") {
+        exclude(group: 'com.google.code.gson', module: 'gson')
+    }
+    compile("com.yy.yyplayer.playcore:YYPlayerSDK-lib:${playersdk_version}") {
+        exclude(group: 'com.yy.android.hiidostatsdk', module: 'hiido_statis')
+        exclude(group: 'com.yy.android.smartdns', module: 'smartdns')
+    }
+    compile "com.yy.android.hiidostatsdk:hiido_statis:${hiido_statis_version}"
+    compile "com.baidu.lbsyun:BaiduLBS:v${baiduLBS_version}"
+    compile "cn.sharesdk:ShareSDK-Core:${sharesdkVersion}"
+    compile "cn.sharesdk:ShareSDK-SinaWeibo:${sharesdkVersion}"
+    compile "cn.sharesdk:ShareSDK-Wechat:${sharesdkVersion}"
+    compile "cn.sharesdk:ShareSDK-Wechat-Core:${sharesdkVersion}"
+    compile "cn.sharesdk:ShareSDK-Wechat-Moments:${sharesdkVersion}"
+    compile "cn.sharesdk:ShareSDK-QQ:${sharesdkVersion}"
+    compile "cn.sharesdk:ShareSDK-QZone:${sharesdkVersion}"
+    compile "com.yy.android.smartdns:smartdns:${smartdns_version}"
+    compile 'cn.sharesdk:MobCommons:2016.0707.1708'
+    compile 'cn.sharesdk:MobTools:2016.0707.1708'
+}
+
+task copyLocalHostInfoFile<< {
+    copy {
+        from "${local_host_path}/artifacts"
+        into project.rootDir
+    }
+    File dFile = new File(project.rootDir, "D.txt")
+    File rFile = new File(project.rootDir, "R.txt")
+    File newDFile = new File("${project.rootDir}/build-small/intermediates/small-pre-link/aar/${rootProject.small.hostModuleName}-D.txt")
+    File newRFile = new File("${project.rootDir}/build-small/intermediates/small-pre-ids/${rootProject.small.hostModuleName}-R.txt")
+    if (newDFile.exists()) newDFile.delete()
+    if (newRFile.exists()) newRFile.delete()
+    dFile.renameTo(newDFile)
+    rFile.renameTo(newRFile)
+}
+
+task downloadHostInfoFile << {
+    download{
+        src([
+            "${host_path}/artifacts/D.txt",
+            "${host_path}/artifacts/R.txt",
+            "${host_path}/proguard/mapping.txt"
+        ])
+        dest project.rootDir
+    }
+    File dFile = new File(project.rootDir, "D.txt")
+    File rFile = new File(project.rootDir, "R.txt")
+    File newDFile = new File("${project.rootDir}/build-small/intermediates/small-pre-link/aar/${rootProject.small.hostModuleName}-D.txt")
+    File newRFile = new File("${project.rootDir}/build-small/intermediates/small-pre-ids/${rootProject.small.hostModuleName}-R.txt")
+    if (newDFile.exists()) newDFile.delete()
+    if (newRFile.exists()) newRFile.delete()
+    dFile.renameTo(newDFile)
+    rFile.renameTo(newRFile)
+}
+
+task deployPluginSo << {
+    println "Deploying plugin so"
+    def result = exec {
+        def rootDir = project.rootDir
+        def localProperties = new File(rootDir, "local.properties")
+        if (localProperties.exists()) {
+            Properties properties = new Properties()
+            localProperties.withInputStream {
+                instr -> properties.load(instr)
+            }
+            File lib = new File("${project.rootDir}/target/")
+            String[] plugin = lib.list(new FilenameFilter() {
+                @Override
+                boolean accept(File dir, String filename) {
+                    return filename.startsWith("lib") && filename.endsWith(".so");
+                }
+            })
+            if (null != plugin && plugin.length > 0) {
+                def sdkDir = properties.getProperty('sdk.dir')
+                def adb = "$sdkDir/platform-tools/adb"
+                commandLine "$adb", "push", "${project.rootDir}/target/" + plugin[0], "/sdcard/yyplugins/" + plugin[0]
+            } else {
+				println "plugin so not found!"
+			}
+        }
+        ignoreExitValue true
+    }
+}
+
+preBuild.dependsOn downloadHostInfoFile
+//preBuild.dependsOn copyLocalHostInfoFile
+//buildBundle.finalizedBy deployPluginSo

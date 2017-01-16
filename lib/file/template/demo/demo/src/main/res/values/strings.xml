@@ -1,0 +1,3 @@
+<resources>
+    <string name="plugin_name">${project_name}$</string>
+</resources>
