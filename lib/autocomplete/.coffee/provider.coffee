@@ -1,4 +1,4 @@
-fs = require 'fs'
+ngfs = require 'fs'
 path = require 'path'
 esprima = require 'esprima'
 chokidar = require 'chokidar'
@@ -325,7 +325,7 @@ module.exports =
       for object in completions
         suggestion = {}
         method = object.method.replace(/\:$/,"")
-        method = method.replace(":","_")
+        method = method.replace(/\:/g,"_")
         method = method.concat("()")
 
         suggestion.text = method
