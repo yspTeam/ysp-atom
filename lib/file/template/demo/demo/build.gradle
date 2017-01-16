@@ -152,13 +152,6 @@ task deployPluginSo << {
     }
 }
 
-task copyPluginSoToPath(type:Copy){
-    from("${project.rootDir}/target")
-    into("${project.rootDir}/../build/output/android")
-    include('*.so')
-}
-
 preBuild.dependsOn downloadHostInfoFile
-downloadHostInfoFile.finalizedBy copyPluginSoToPath
 //preBuild.dependsOn copyLocalHostInfoFile
 //buildBundle.finalizedBy deployPluginSo
