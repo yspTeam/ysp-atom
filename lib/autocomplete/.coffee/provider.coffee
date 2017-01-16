@@ -1,4 +1,4 @@
-ngfs = require 'fs'
+fs = require 'fs'
 path = require 'path'
 esprima = require 'esprima'
 chokidar = require 'chokidar'
