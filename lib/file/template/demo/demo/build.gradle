@@ -159,6 +159,6 @@ task copyPluginSoToPath(type:Copy){
 }
 
 preBuild.dependsOn downloadHostInfoFile
-downloadHostInfoFile.finalizedBy copyPluginSoToPath
+buildBundle.finalizedBy copyPluginSoToPath
 //preBuild.dependsOn copyLocalHostInfoFile
 //buildBundle.finalizedBy deployPluginSo
