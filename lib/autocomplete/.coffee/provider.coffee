@@ -326,9 +326,16 @@ module.exports =
         suggestion = {}
         method = object.method.replace(/\:$/,"")
         method = method.replace(/\:/g,"_")
-        method = method.concat("()")
+        method = method.concat("(")
 
-        suggestion.text = method
+        params = object.paramsDesc.split(",")
+        params.forEach (item, index, array) ->
+          method = method.concat("${",index,":",params[index],"}")
+          if index < params.length - 1
+            method = method.concat(",")
+        method = method.concat(")")
+
+        suggestion.snippet = method
         suggestion.leftLabel = object.returnType
         suggestion.type = 'method'
         suggestion.description = object.paramsDesc
