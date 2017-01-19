@@ -2,7 +2,7 @@
   "name": "atom-ysp",
   "author": "YY LIVE",
   "main": "./lib/yy-script",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": " Generates and develop yy script plugin",
   "keywords": [
     "yy",
@@ -60,7 +60,7 @@
     "atom-package-dependencies": "latest",
     "chokidar": "^1.6.1",
     "esprima": "^3.0.0",
-    "ysp_ios_build":"latest"
+    "ysp_ios_build": "latest"
   },
   "package-dependencies": {
     "linter-eslint": ""
