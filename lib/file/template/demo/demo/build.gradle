@@ -91,7 +91,7 @@ dependencies {
 
 task copyLocalHostInfoFile<< {
     copy {
-        from "${local_host_path}/artifacts"
+        from "${project.rootDir}/../build/build_config/android"
         into project.rootDir
     }
     File dFile = new File(project.rootDir, "D.txt")
@@ -158,7 +158,7 @@ task copyPluginSoToPath(type:Copy){
     include('*.so')
 }
 
-preBuild.dependsOn downloadHostInfoFile
+preBuild.dependsOn copyLocalHostInfoFile
 buildBundle.finalizedBy copyPluginSoToPath
 //preBuild.dependsOn copyLocalHostInfoFile
 //buildBundle.finalizedBy deployPluginSo
