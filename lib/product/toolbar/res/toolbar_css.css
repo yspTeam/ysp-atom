@@ -83,6 +83,11 @@ color: #777777;
 
 #ysp_simulator_view_bg {
     overflow-y:auto;
+    width: 500px;
+    height: 400px;
+}
+#ysp_simulator_view_bg div {
+    width: 210px;
 }
 #ysp_simulator_view_bg ul {
     margin-left: -40px;
@@ -100,8 +105,9 @@ color: #777777;
     color: #eee;
 }
 #ysp_simulator_view_bg button {
-    margin-top:2px;
+    margin-top:3px;
     margin-right: 5px;
+    height: 24px;
     float: right;
 }
 #ysp_simulator_view_bg li {
