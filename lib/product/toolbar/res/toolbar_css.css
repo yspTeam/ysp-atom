@@ -124,6 +124,10 @@ color: #777777;
     background-color: #777777;
 }
 
+#ysp_simulator_view_bg label{
+    color: @text-color;
+}
+
 /*
 setting view
 */
@@ -161,11 +165,12 @@ margin-top: 20px;
 
 #ysp_setting_left_view li {
 height: 40px;
+margin-top: 8px;
+width: 150px;
+padding-left: 14px;
+padding-top: 8px;
 }
 #ysp_setting_left_view span {
-text-align:center;
-margin-top: 8px;
-float:left;
 }
 
 #ysp_debug_info_view_bg {
@@ -174,6 +179,7 @@ float:left;
 }
 #ysp_debug_info_view_bg label{
 width: 150px;
+color: @text-color;
 }
 #ysp_debug_info_input{
 display: inline-block;
@@ -196,6 +202,9 @@ margin-top: 10px;
         margin-left: 5px;
         margin-top: 2px;
 }
+#ysp_download_yy_view_bg label{
+        color: @text-color;
+}
 /*
 tips
 */
@@ -204,10 +213,6 @@ tips
         width: auto;
         height: 100%;
     float: right;
-}
-
-.ysp_toolbar_right label{
-color:#fff;
 }
 
 /*
