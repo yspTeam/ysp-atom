@@ -192,7 +192,9 @@ margin-top: 10px;
         margin-top: 50px;
         margin-left: -340px;
 }
-
+#ysp_debug_info_view_bg atom-text-editor{
+        width: 200px;
+}
 #ysp_download_yy_view_bg atom-text-editor{
         float: left;
         width: 420px;
