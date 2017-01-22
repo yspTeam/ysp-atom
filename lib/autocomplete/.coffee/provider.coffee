@@ -320,7 +320,7 @@ module.exports =
     @classes = new Set()
 
   loadAppCompletions: ->
-    fs.readFile path.resolve(__dirname, '.', 'AppComplete.json'), (error, content) =>
+    fs.readFile path.resolve(__dirname, '.', 'AutoComplete.json'), (error, content) =>
       completions = JSON.parse(content) unless error?
       for object in completions
         suggestion = {}
