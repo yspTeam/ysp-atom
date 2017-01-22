@@ -1,3 +1,4 @@
+
 .ysp_toolbar ul {
     list-style: none;
 }
@@ -125,7 +126,7 @@ color: #777777;
 }
 
 #ysp_simulator_view_bg label{
-    color: @text-color;
+    color: #eeeeee;
 }
 
 /*
@@ -150,7 +151,6 @@ setting view
 #ysp_setting_view_bg {
 margin-left:auto;
 margin-right:auto;
-margin-top: 20px;
     width: 700px;
     height: 600px;
         background-color: #282c34;
@@ -169,6 +169,7 @@ margin-top: 8px;
 width: 150px;
 padding-left: 14px;
 padding-top: 8px;
+    color: #eeeeee;
 }
 #ysp_setting_left_view span {
 }
@@ -179,7 +180,7 @@ padding-top: 8px;
 }
 #ysp_debug_info_view_bg label{
 width: 150px;
-color: @text-color;
+color: #eeeeee;
 }
 #ysp_debug_info_input{
 display: inline-block;
@@ -203,7 +204,7 @@ margin-top: 10px;
         margin-top: 2px;
 }
 #ysp_download_yy_view_bg label{
-        color: @text-color;
+        color: #eeeeee;
 }
 /*
 tips
@@ -236,7 +237,7 @@ socket_clients
     margin-right: 20px;
     margin-left: auto;
     margin-top: 36px;
-        background-color: #21252b;
+        background-color: #282c34;
         border: #aaa 1px solid;
         z-index:99999;
         -moz-border-radius: 4px;
