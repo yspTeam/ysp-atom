@@ -44,6 +44,7 @@ apply plugin: 'com.yy.android.small'
 small {
     aarVersion = "${small_version}"
     hostModuleName = "yymobile"
+    // strictSplitResources = false
 }
 rootProject.small.bundles("app", "${project_name}$")
 
