@@ -37,6 +37,8 @@
     -moz-border-radius: 4px;
     -webkit-border-radius: 4px;
     border-radius: 4px;
+    padding-top: 4px;
+    padding-left: 5px;
 }
 
 .ysp_toolbar_btn:active {
@@ -46,10 +48,6 @@
 .ysp_toolbar_btn img {
     width: 18px;
     height: 18px;
-    margin-top: 4px;
-}
-.ysp_toolbar_btn span:before {
-        margin-right: 0px;
     margin-top: 4px;
 }
 
