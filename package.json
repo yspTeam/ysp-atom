@@ -2,7 +2,7 @@
   "name": "atom-ysp",
   "author": "YY LIVE",
   "main": "./lib/yy-script",
-  "version": "0.4.4",
+  "version": "0.4.5",
   "description": " Generates and develop yy script plugin",
   "keywords": [
     "yy",
