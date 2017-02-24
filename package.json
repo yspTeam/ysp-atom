@@ -59,8 +59,7 @@
     "eslint-plugin-prefer-object-spread": "^1.1.0",
     "atom-package-dependencies": "latest",
     "chokidar": "^1.6.1",
-    "esprima": "^3.0.0",
-    "ysp_ios_build": "latest"
+    "esprima": "^3.0.0"
   },
   "package-dependencies": {
     "linter-eslint": ""
